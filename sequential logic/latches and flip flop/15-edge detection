@@ -1,0 +1,15 @@
+module top_module (
+    input clk,
+    input [7:0] in,
+    output [7:0] pedge
+);
+// Register to hold the previous state of the input
+    reg [7:0] in_d;
+    // At each positive edge of the clock, we perform edge detection
+    always @(posedge clk) begin
+        // Detect rising edges (0 to 1 transition)
+        pedge <= (in & ~in_d);
+        // Update previous state
+        in_d <= in;
+    end
+endmodule
