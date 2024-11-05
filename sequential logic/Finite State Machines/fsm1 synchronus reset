@@ -1,0 +1,44 @@
+module top_module(clk, reset, in, out);
+    input clk;
+    input reset;    // Synchronous reset to state B
+    input in;
+    output out;//  
+    reg out;
+
+    // Fill in state name declarations
+    reg A=1'b1,B=1'b0;
+    reg present_state, next_state;
+//////////default state and next state 
+    always @(posedge clk) begin
+        if (reset)  
+            present_state<=B;
+            else
+        present_state = next_state;
+    end
+    /////////////////next state
+    always@(*)
+          begin
+            case (present_state)
+                A:if(in)
+                    next_state=A;
+                   else
+                       next_state=B;
+                B:if(in)
+                    next_state=B;
+                   else
+                       next_state=A;
+                default next_state=present_state;
+                   
+            endcase
+          end
+            ////////////////////state output 
+            always@(*) begin
+            case (present_state)
+                A:out<=1'b0;
+                B:out<=1'b1;
+                default out=0;
+            endcase
+        end
+    
+
+endmodule
